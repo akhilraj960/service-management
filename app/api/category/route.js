@@ -17,16 +17,16 @@ export async function POST(req) {
   try {
     await connectToDatabase();
     const body = await req.json();
-    const { name, description } = body;
+    const { name, status } = body;
 
-    if (!name || !description) {
+    if (!name || !status) {
       return new Response(
         JSON.stringify({ error: "Name and description are required" }),
         { status: 400 }
       );
     }
 
-    const newCategory = new Category({ name, description });
+    const newCategory = new Category({ name, status });
     const savedCategory = await newCategory.save();
     return new Response(JSON.stringify(savedCategory), { status: 201 });
   } catch (error) {

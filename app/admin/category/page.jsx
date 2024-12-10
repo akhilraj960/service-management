@@ -77,7 +77,7 @@ export default function Category() {
     if (!confirm("Are you sure you want to delete this category?")) return;
 
     try {
-      await axios.delete("/category", { data: { id } });
+      await axios.delete("/api/category", { data: { id } });
       setCategories((prev) => prev.filter((category) => category._id !== id));
     } catch (error) {
       console.error("Error deleting category:", error);
@@ -113,7 +113,7 @@ export default function Category() {
               <TableRow>
                 <TableHead>No</TableHead>
                 <TableHead>Category Name</TableHead>
-                <TableHead>Category Description</TableHead>
+                <TableHead>Category Status</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -123,7 +123,7 @@ export default function Category() {
                   <TableRow key={category._id}>
                     <TableCell>{index + 1}</TableCell>
                     <TableCell>{category.name}</TableCell>
-                    <TableCell>{category.description}</TableCell>
+                    <TableCell>{category.status}</TableCell>
                     <TableCell className="flex space-x-2">
                       <Dialog>
                         <DialogTrigger asChild>
@@ -131,7 +131,7 @@ export default function Category() {
                         </DialogTrigger>
                         <DialogContent>
                           <DialogHeader>
-                            <DialogTitle>Edit Category</DialogTitle>
+                            <DialogTitle>Edit Status</DialogTitle>
                             <DialogDescription></DialogDescription>
                           </DialogHeader>
                           <CategoryForm defaultValues={category} />

@@ -7,6 +7,7 @@ import { z } from "zod";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -16,11 +17,18 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import axios from "axios";
 import { useRouter } from "next/navigation";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 // Validation schema using zod
 const categorySchema = z.object({
   name: z.string().nonempty("Category name is required"),
-  description: z.string().nonempty("Description is required"),
+  status: z.string().nonempty("Description is required"),
 });
 
 export const CategoryForm = ({ defaultValues = {}, onClose }) => {
@@ -30,7 +38,7 @@ export const CategoryForm = ({ defaultValues = {}, onClose }) => {
     resolver: zodResolver(categorySchema),
     defaultValues: {
       name: defaultValues.name || "",
-      description: defaultValues.description || "",
+      status: defaultValues.status || "",
     },
   });
 
@@ -72,18 +80,22 @@ export const CategoryForm = ({ defaultValues = {}, onClose }) => {
           )}
         />
         <FormField
-          name="description"
+          name="status"
           control={form.control}
           render={({ field }) => (
             <FormItem>
-              <FormLabel htmlFor="description">Description</FormLabel>
-              <FormControl>
-                <Input
-                  id="description"
-                  placeholder="Enter category description"
-                  {...field}
-                />
-              </FormControl>
+              <FormLabel>Status</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select Status" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="Active">Active</SelectItem>
+                  <SelectItem value="InActive">In Active</SelectItem>
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}
